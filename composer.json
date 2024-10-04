@@ -1,0 +1,21 @@
+{
+    "name": "nyms99/functional-and-concurrent-programming",
+    "description": "An excercise towards functional and concurrent programming in PHP",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Taylor",
+            "email": "dktaylor3@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.3.9"
+    }
+}

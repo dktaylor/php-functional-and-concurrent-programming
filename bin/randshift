@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+use App\RandomShift\App;
+
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+$nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+$app1 = new App();
+$app2 = new App();
+$app3 = new App();
+$app4 = new App();
+
+$app1->start();
+for ($i = 0; $i < 10; ++$i) {
+    $app1->run($nums, 'imperative');
+}
+$app1->stop();
+echo sprintf("App Runtime [{$app1->getType()}]: %s", (\DateTime::createFromFormat('u', $app1->getDuration()))->format('H:i:s.u')) . PHP_EOL . PHP_EOL;
+
+$app2->start();
+for ($i = 0; $i < 10; ++$i) {
+    $app2->run($nums, 'functional');
+}
+$app2->stop();
+echo sprintf("App Runtime [{$app2->getType()}]: %s", (\DateTime::createFromFormat('u', $app2->getDuration()))->format('H:i:s.u')) . PHP_EOL . PHP_EOL;
+
+$app3->start();
+for ($i = 0; $i < 10; ++$i) {
+    $app3->run($nums, 'alt_functional');
+}
+$app3->stop();
+echo sprintf("App Runtime [{$app3->getType()}]: %s", (\DateTime::createFromFormat('u', $app3->getDuration()))->format('H:i:s.u')) . PHP_EOL . PHP_EOL;
+
+$app4->start();
+for ($i = 0; $i < 10; ++$i) {
+    $app4->run($nums, 'another_functional');
+}
+$app4->stop();
+echo sprintf("App Runtime [{$app4->getType()}]: %s", (\DateTime::createFromFormat('u', $app4->getDuration()))->format('H:i:s.u')) . PHP_EOL . PHP_EOL;
