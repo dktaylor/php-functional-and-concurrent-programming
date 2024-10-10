@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+use App\Chapter02\Section1\Abs;
+use App\Chapter02\Section2\Dots;
+
+$abs = new Abs();
+$dots = new Dots($abs);
+
+$demo1 = function() use ($dots) {
+    return $dots->demo1();
+};
+
+$demo2 = function() use ($dots) {
+    return $dots->demo2();
+};
+
+// Other ways
+$demo3 = static function (int $num) use ($dots, $abs) {
+    return $dots->dots($abs($num));
+};
+
+$demo4 = static function (int $num) use ($dots, $abs) {
+    $num = abs($num);
+    return $dots->dots($num);
+};
+
+echo $demo1() . PHP_EOL;
+echo $demo2() . PHP_EOL;
+echo $demo3(-3) . PHP_EOL;
+echo $demo4(-3) . PHP_EOL;

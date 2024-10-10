@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+use App\Chapter02\Section1\Abs;
+
+$nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10];
+
+$abs = new Abs();
+echo print_r(array_map(function ($num) use ($abs) {
+    return $abs($num);
+}, $nums), true) . PHP_EOL;
+
+// Another way; Also not a true absolute number function.
+$abs = static function ($num) {
+    return $num > 0 ? $num : -$num;
+};
+
+echo print_r(array_map($abs, $nums), true) . PHP_EOL;
