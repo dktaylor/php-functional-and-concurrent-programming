@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+
+require_once dirname(__DIR__).'/vendor/autoload.php';
+
+use App\Chapter02\Section7\Avg;
+
+echo "Using anonymous/lambda function" . PHP_EOL;
+$start = hrtime(true);
+$average = static fn(float $first, float ...$others)
+    => ($first + array_sum($others)) / (1 + count($others));
+$demo1 = $average(1.0, 2.3, 4.1);
+$demo2 = $average(10.0, 20.0);
+$demo3 = $average(10.0);
+$end = hrtime(true);
+echo sprintf(
+        "Runtime: %s", (\DateTime::createFromFormat('U.u', (
+        ($end - $start) / 1e+6
+    )))->format('H:i:s.u')) . PHP_EOL;
+echo $demo1 . PHP_EOL;
+echo $demo2 . PHP_EOL;
+echo $demo3 . PHP_EOL;
+echo PHP_EOL;
+
+// Using class __invoke
+echo "Using __invoke from Avg::class" . PHP_EOL;
+$start = hrtime(true);
+$avg = new Avg();
+$demo4 = $avg(1.0, 2.3, 4.1);
+$demo5 = $avg(10.0, 20.0);
+$demo6 = $avg(10.0);
+$end = hrtime(true);
+echo sprintf(
+    "Runtime: %s",
+    (\DateTime::createFromFormat('U.u', (
+        ($end - $start)/1e+6
+    )))->format('H:i:s.u')) . PHP_EOL;
+echo $demo4 . PHP_EOL;
+echo $demo5 . PHP_EOL;
+echo $demo6 . PHP_EOL;
+echo PHP_EOL;
+
+echo "Using Avg::__construct(callable) w/Avg->get(first, others)" . PHP_EOL;
+$start = hrtime(true);
+$avg = new Avg($average);
+$demo7 = $avg->get(1.0, 2.3, 4.1);
+$demo8 = $avg->get(10.0, 20.0);
+$demo9 = $avg->get(10.0);
+$end = hrtime(true);
+echo sprintf(
+    "Runtime: %s",
+    (\DateTime::createFromFormat('U.u', (
+        ($end - $start)/1e+6
+    )))->format('H:i:s.u')) . PHP_EOL;
+echo $demo7 . PHP_EOL;
+echo $demo8 . PHP_EOL;
+echo $demo9 . PHP_EOL;
+echo PHP_EOL;
+
+
+echo "Using StdClass w/Anonymous/Lambda function" . PHP_EOL;
+$start = hrtime(true);
+$avg = new StdClass();
+$avg->get = $average;
+$demo10 = ($avg->get)(1.0, 2.3, 4.1);
+$demo11 = ($avg->get)(10.0, 20.0);
+$demo12 = ($avg->get)(10.0);
+$end = hrtime(true);
+echo sprintf(
+    "Runtime: %s",
+    (\DateTime::createFromFormat('U.u', (
+        ($end - $start)/1e+6
+    )))->format('H:i:s.u')) . PHP_EOL;
+echo $demo10 . PHP_EOL;
+echo $demo11 . PHP_EOL;
+echo $demo12 . PHP_EOL;
+echo PHP_EOL;
