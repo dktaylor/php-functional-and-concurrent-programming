@@ -18,3 +18,7 @@ $abs = static function ($num) {
 };
 
 echo print_r(array_map($abs, $nums), true) . PHP_EOL;
+
+// A third way; Completely unhinged
+$abs = static fn(int $num) => $num > 0 ? $num : -$num;
+echo print_r(array_map($abs, $nums), true) . PHP_EOL;
